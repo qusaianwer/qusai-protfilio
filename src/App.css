@@ -22,9 +22,6 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.logo {
     color: #00d4ff;
 }
 
