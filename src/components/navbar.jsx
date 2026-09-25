@@ -12,6 +12,7 @@ function Navbar(){
             <li>About</li>
             <li>My project</li>
             <li>Contact</li>
+            <li>qusai</li>
         </ul>
       </nav>
     );
