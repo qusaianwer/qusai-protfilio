@@ -1,4 +1,4 @@
-import logo from "src/photo/photo_2026-09-23_21-24-46.jpg";
+import logo from ".../photo/photo_2026-09-23_21-24-46.jpg";
 
 function Navbar(){
     return(
