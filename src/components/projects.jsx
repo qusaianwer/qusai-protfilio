@@ -14,6 +14,14 @@ Role: Creator & Developer
 Focus: Programming • Problem Solving • Software Engineering
 Content: Tutorials • Programming Concepts • Coding Challenges
           </p>
+          <a
+  href="https://youtube.com/@q3v_203?si=nJ_gJDI9gQJcoDzD"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="youtube-btn"
+>
+  ▶ شاهد القناة
+</a>
         </div>
         <div className="card">
           <h3>project two</h3>
