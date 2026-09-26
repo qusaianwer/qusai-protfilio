@@ -20,7 +20,7 @@ Content: Tutorials • Programming Concepts • Coding Challenges
   rel="noopener noreferrer"
   className="youtube-btn"
 >
-  ▶ شاهد القناة
+  ▶ My Channel
 </a>
         </div>
         <div className="card">
