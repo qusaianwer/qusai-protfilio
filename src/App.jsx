@@ -1,3 +1,4 @@
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/navbar';
 import Hero from './components/hero';
 import About from './components/about';
@@ -9,13 +10,20 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Contact />
-
-      <footer>
-        © 2026 Qusai. جميع الحقوق محفوظة</footer>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Hero />
+              <About />
+              <Contact />
+            </>
+          }
+        />
+        <Route path="/projects" element={<Projects />} />
+      </Routes>
+      <footer>© 2026 Qusai. جميع الحقوق محفوظة</footer>
     </div>
   );
 }
