@@ -818,3 +818,116 @@ footer {
     font-size: 0.95rem;
     word-break: break-word;
 }
+
+.nv-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 5%;
+    background: rgba(15, 15, 26, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+}
+
+.nv-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.nv-logo-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00d4ff;
+}
+
+.nv-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nv-links a {
+    position: relative;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+}
+
+.nv-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #00d4ff;
+    transition: width 0.3s ease;
+}
+
+.nv-links a:hover,
+.nv-links a.active {
+    color: #00d4ff;
+}
+
+.nv-links a:hover::after,
+.nv-links a.active::after {
+    width: 100%;
+}
+
+.nv-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nv-toggle {
+        display: block;
+    }
+    .nv-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(15, 15, 26, 0.97);
+        border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+    .nv-links.nv-open {
+        max-height: 400px;
+    }
+    .nv-links li {
+        width: 100%;
+        text-align: center;
+    }
+    .nv-links a {
+        display: block;
+        padding: 16px 0;
+    }
+    .nv-links a::after {
+        display: none;
+    }
+}
