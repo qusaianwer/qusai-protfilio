@@ -24,7 +24,7 @@ function Navbar() {
 
       <ul className={open ? "nv-links nv-open" : "nv-links"}>
         <li><NavLink to="/" end onClick={close}>Home</NavLink></li>
-        <li><a href="/#about" onClick={close}>About</a></li>
+        
         <li><NavLink to="/services" onClick={close}>Services</NavLink></li>
         <li><NavLink to="/projects" onClick={close}>My project</NavLink></li>
         <li><NavLink to="/contact" onClick={close}>Contact</NavLink></li>
