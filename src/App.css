@@ -412,9 +412,6 @@ footer {
     color: #7f97a3;
 }
 
-
-/* ---------- Keyframes ---------- */
-
 @keyframes p4-orbit {
     to {
         --p4-angle: 360deg;
