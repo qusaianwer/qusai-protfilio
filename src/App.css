@@ -4,6 +4,17 @@
     box-sizing: border-box;
 }
 
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+    outline: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 body {
     font-family: 'Segoe UI', sans-serif;
     background-color: #0f0f1a;
