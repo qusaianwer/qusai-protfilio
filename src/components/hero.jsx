@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaGithub } from "react-icons/fa"
 function Hero() {
   return (
     <section className="hero" id="hero">
@@ -9,7 +10,7 @@ function Hero() {
       <Link to="/projects">
         <button>View My Projects</button>
         </Link>
-      <a href="https://github.com/qusaianwer"><button>Explore My GitHub</button></a>
+      <a href="https://github.com/qusaianwer"><button><FaGithub className="btn-icon"/> Explore My GitHub</button></a>
       
     </section>
   );
