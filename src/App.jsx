@@ -4,6 +4,7 @@ import Hero from './components/hero';
 import About from './components/about';
 import Projects from './components/projects';
 import Contact from './components/contact';
+import Services from './components/services';
 import './App.css';
 
 function App() {
@@ -17,11 +18,13 @@ function App() {
             <>
               <Hero />
               <About />
-              <Contact />
+              
             </>
           }
         />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <footer>© 2026 Qusai. جميع الحقوق محفوظة</footer>
     </div>
