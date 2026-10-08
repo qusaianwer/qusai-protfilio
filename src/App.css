@@ -931,3 +931,27 @@ footer {
         display: none;
     }
 }
+
+.project-tech {
+    color: #00d4ff;
+    font-size: 0.85rem;
+    margin: 12px 0;
+}
+
+.gh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0ea5e9, #c0392b);
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.gh-btn:hover {
+    transform: translateY(-3px);
+}

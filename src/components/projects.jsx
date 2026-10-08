@@ -1,3 +1,4 @@
+import { FaGithub } from "react-icons/fa";
 function Projects() {
   return (
     <section className="projects" id="project">
@@ -61,6 +62,26 @@ Designed the concept, architecture, workflows, and user experience of the platfo
 Goal
 To make AI automation accessible to local businesses by turning repetitive manual processes into reliable, automated workflows.
           </p></div>
+          <div className="card">
+  <h3>ExpTrack</h3>
+  <p>
+  ExpTrack is a desktop expense management application for Windows,
+  designed to give you full control over your personal finances. Record
+  income and expenses, set monthly budgets for each category, and analyze
+  your spending habits through an interactive dashboard and detailed
+  charts. Built with a clean dark interface, and all your data stays
+  private on your own device.
+</p>
+  <p className="project-tech">Python • CustomTkinter • SQLite • Matplotlib</p>
+  <a
+    href="https://github.com/qusaianwer/ExpTrack"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="gh-btn"
+  >
+    <FaGithub /> View on GitHub
+  </a>
+</div>
          <div className="card p4-card" role="status" aria-live="polite">
   <div className="p4-inner">
     <svg className="p4-gear" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -68,7 +89,7 @@ To make AI automation accessible to local businesses by turning repetitive manua
       <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
     </svg>
 
-    <h3 className="p4-title">Project Four</h3>
+    <h3 className="p4-title">Project Five</h3>
 
     <p className="p4-sub">
       Under Construction
