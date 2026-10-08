@@ -938,15 +938,25 @@ footer {
     margin: 12px 0;
 }
 
+.project-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 16px;
+}
+
 .gh-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    margin-top: 12px;
-    padding: 10px 22px;
+    width: 220px;
+    padding: 11px 0;
     border-radius: 999px;
     background: linear-gradient(90deg, #0ea5e9, #c0392b);
     color: #ffffff;
+    font-size: 0.95rem;
     font-weight: bold;
     text-decoration: none;
     transition: transform 0.2s ease;
@@ -954,4 +964,10 @@ footer {
 
 .gh-btn:hover {
     transform: translateY(-3px);
+}
+
+.card .gh-btn svg {
+    width: 1.1em;
+    height: 1.1em;
+    font-size: 1.1rem;
 }

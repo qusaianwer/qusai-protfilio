@@ -1,4 +1,4 @@
-import { FaGithub } from "react-icons/fa";
+import { FaGithub,FaDownload } from "react-icons/fa";
 function Projects() {
   return (
     <section className="projects" id="project">
@@ -73,6 +73,7 @@ To make AI automation accessible to local businesses by turning repetitive manua
   private on your own device.
 </p>
   <p className="project-tech">Python • CustomTkinter • SQLite • Matplotlib</p>
+  <div className="project-btns">
   <a
     href="https://github.com/qusaianwer/ExpTrack"
     target="_blank"
@@ -81,6 +82,14 @@ To make AI automation accessible to local businesses by turning repetitive manua
   >
     <FaGithub /> View on GitHub
   </a>
+  <a
+    href="https://github.com/qusaianwer/ExpTrack/releases/latest"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="gh-btn"
+  >
+    <FaDownload /> Download for Windows
+  </a></div>
 </div>
          <div className="card p4-card" role="status" aria-live="polite">
   <div className="p4-inner">
