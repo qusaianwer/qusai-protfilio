@@ -1,4 +1,4 @@
-import { FaGithub,FaDownload } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa";
 function Projects() {
   return (
     <section className="projects" id="project">
@@ -63,33 +63,45 @@ Goal
 To make AI automation accessible to local businesses by turning repetitive manual processes into reliable, automated workflows.
           </p></div>
           <div className="card">
-  <h3>ExpTrack</h3>
-  <p>
-  ExpTrack is a desktop expense management application for Windows,
-  designed to give you full control over your personal finances. Record
-  income and expenses, set monthly budgets for each category, and analyze
-  your spending habits through an interactive dashboard and detailed
-  charts. Built with a clean dark interface, and all your data stays
-  private on your own device.
+            <h3>project four</h3>
+  <p>          
+  <h4>ExpTrack — Personal Expense Tracker</h4>
+  
+
+ExpTrack is a cross-platform expense tracking application designed to help users manage their personal finances efficiently. Available for both desktop and mobile devices, the application enables users to track income and expenses, organize transactions, and manage their financial data through a user-friendly interface.
+
+The application integrates with Supabase for cloud database management and data synchronization, providing a foundation for secure and accessible financial data storage.
+
+**Key Features:**
+- Income and expense tracking.
+- Transaction management and categorization.
+- Cross-platform support for desktop and mobile.
+- Supabase cloud database integration.
+- User-friendly interface for managing personal finances.
+
+**Technologies:** Flutter, Dart, Supabase, PostgreSQL.
+
+**Role:** Full-Stack Application Developer.
 </p>
   <p className="project-tech">Python • CustomTkinter • SQLite • Matplotlib</p>
   <div className="project-btns">
+<div className="project-btns">
   <a
-    href="https://github.com/qusaianwer/ExpTrack"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="gh-btn"
-  >
-    <FaGithub /> View on GitHub
-  </a>
-  <a
-    href="https://github.com/qusaianwer/ExpTrack/releases/latest"
-    target="_blank"
-    rel="noopener noreferrer"
+    href="/ExpTrack.exe"
+    download="ExpTrack.exe"
     className="gh-btn"
   >
     <FaDownload /> Download for Windows
-  </a></div>
+  </a>
+
+  <a
+    href="/ExpTrack.apk"
+    download="ExpTrack.apk"
+    className="gh-btn"
+  >
+    <FaDownload /> Download for Android
+  </a>
+</div></div>
 </div>
          <div className="card p4-card" role="status" aria-live="polite">
   <div className="p4-inner">

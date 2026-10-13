@@ -12,7 +12,7 @@ const contacts = [
     icon: <FaWhatsapp />,
     title: "WhatsApp",
     text: "Chat with me directly",
-    link: "https://wa.me/962779527025",
+    link: "https://wa.me/962776822441",
     color: "#25d366",
   },
   {
