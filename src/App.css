@@ -705,12 +705,27 @@ footer {
     margin-bottom: 20px;
 }
 
+.ab-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    margin: 30px 0 36px;
+}
+
+.ab-group-title {
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #dddddd;
+    opacity: 0.65;
+}
+
 .ab-skills {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
-    margin: 26px 0 36px;
 }
 
 .ab-skill {
@@ -721,12 +736,89 @@ footer {
     color: #00d4ff;
     font-size: 0.95rem;
     font-weight: bold;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    /* ظهور ناعم + طفو خفيف مستمر */
+    animation: ab-fade-up 0.5s ease backwards, ab-float 5s ease-in-out infinite;
+    animation-delay: var(--d, 0.15s), calc(var(--d, 0.15s) * -10);
+}
+
+.ab-skill:nth-child(1) {
+    --d: 0.15s;
+}
+
+.ab-skill:nth-child(2) {
+    --d: 0.22s;
+}
+
+.ab-skill:nth-child(3) {
+    --d: 0.29s;
+}
+
+.ab-skill:nth-child(4) {
+    --d: 0.36s;
+}
+
+.ab-skill:nth-child(5) {
+    --d: 0.43s;
+}
+
+.ab-skill:nth-child(6) {
+    --d: 0.50s;
 }
 
 .ab-skill:hover {
     transform: translateY(-3px);
-    background: rgba(0, 212, 255, 0.18);
+    background-color: rgba(0, 212, 255, 0.18);
+    border-color: rgba(0, 212, 255, 0.7);
+    box-shadow: 0 6px 18px rgba(0, 212, 255, 0.25);
+    animation-play-state: running, paused;
+}
+
+.ab-group {
+    animation: ab-fade-up 0.6s ease backwards;
+}
+
+.ab-group:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.ab-group:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.ab-group:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+@keyframes ab-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* طفو هادي: بيستخدم translate عشان ما يتعارض مع transform تبع الهوفر */
+
+@keyframes ab-float {
+    0%,
+    100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -4px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ab-group,
+    .ab-skill {
+        animation: none;
+    }
 }
 
 .ab-goal {
@@ -819,18 +911,44 @@ footer {
     word-break: break-word;
 }
 
+
+/* إطار زجاجي عايم لحاله (المحتوى جواته ما تغيّر) */
+
 .nv-bar {
     position: sticky;
-    top: 0;
+    top: 14px;
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 5%;
-    background: rgba(15, 15, 26, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+    width: 92%;
+    max-width: 1200px;
+    margin: 14px auto 0;
+    padding: 10px 28px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.03));
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 212, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    animation: nv-pop 0.6s ease backwards;
+}
+
+@keyframes nv-pop {
+    from {
+        opacity: 0;
+        transform: translateY(-18px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nv-bar {
+        animation: none;
+    }
 }
 
 .nv-logo {
@@ -905,19 +1023,23 @@ footer {
     }
     .nv-links {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 10px);
         left: 0;
         right: 0;
         flex-direction: column;
         gap: 0;
-        background: rgba(15, 15, 26, 0.97);
-        border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+        border-radius: 18px;
+        background: rgba(15, 15, 26, 0.85);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid transparent;
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.35s ease;
     }
     .nv-links.nv-open {
         max-height: 400px;
+        border-color: rgba(255, 255, 255, 0.14);
     }
     .nv-links li {
         width: 100%;

@@ -1,4 +1,15 @@
-const skills = ["Java", "Python", "C++", "Web Development", "Automation"];
+const skillGroups = [
+  { title: "Languages", items: ["Java", "Python", "C++", "Dart", "HTML/CSS"] },
+  { title: "Frameworks & Libraries", items: ["React", "Flutter", "Node.js"] },
+  {
+    title: "Databases & Tools",
+    items: ["SQL", "SQLite", "Git", "GitHub", "VS Code", "Figma"],
+  },
+  {
+    title: "Focus Areas",
+    items: ["Web Development", "Automation", "REST APIs", "AI Tools", "UI/UX"],
+  },
+];
 
 function About() {
   return (
@@ -19,11 +30,18 @@ function About() {
           fundamentals.
         </p>
 
-        <div className="ab-skills">
-          {skills.map((skill) => (
-            <span className="ab-skill" key={skill}>
-              {skill}
-            </span>
+        <div className="ab-groups">
+          {skillGroups.map((group) => (
+            <div className="ab-group" key={group.title}>
+              <h4 className="ab-group-title">{group.title}</h4>
+              <div className="ab-skills">
+                {group.items.map((skill) => (
+                  <span className="ab-skill" key={skill}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
 
