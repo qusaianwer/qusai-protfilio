@@ -1192,3 +1192,12 @@ html body {
         display: none;
     }
 }
+
+@media (max-width: 768px) {
+    .nv-links:not(.nv-open) {
+        border-width: 0;
+        background: transparent;
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
