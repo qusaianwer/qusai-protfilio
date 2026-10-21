@@ -1093,3 +1093,91 @@ footer {
     height: 1.1em;
     font-size: 1.1rem;
 }
+
+html:root {
+    background: #0f0f1a;
+}
+
+html body {
+    background: transparent;
+}
+
+.bg-fx {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    /* خلف كل المحتوى */
+    overflow: hidden;
+    pointer-events: none;
+    /* ما تمنع الضغط على أي شي */
+    background: radial-gradient(ellipse at 50% 0%, #15152b 0%, #0f0f1a 60%);
+}
+
+.bg-canvas {
+    position: absolute;
+    inset: 0;
+}
+
+.bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    will-change: transform;
+}
+
+.bg-blob-1 {
+    width: 46vmax;
+    height: 46vmax;
+    top: -14vmax;
+    left: -10vmax;
+    background: #00d4ff;
+    animation: bg-drift-1 22s ease-in-out infinite alternate;
+}
+
+.bg-blob-2 {
+    width: 40vmax;
+    height: 40vmax;
+    bottom: -14vmax;
+    right: -10vmax;
+    background: #ef00c3;
+    opacity: 0.28;
+    animation: bg-drift-2 27s ease-in-out infinite alternate;
+}
+
+.bg-blob-3 {
+    width: 30vmax;
+    height: 30vmax;
+    top: 35%;
+    left: 40%;
+    background: #2dd4bf;
+    opacity: 0.18;
+    animation: bg-drift-3 32s ease-in-out infinite alternate;
+}
+
+@keyframes bg-drift-1 {
+    to {
+        transform: translate(30vmax, 18vmax) scale(1.2);
+    }
+}
+
+@keyframes bg-drift-2 {
+    to {
+        transform: translate(-28vmax, -20vmax) scale(1.15);
+    }
+}
+
+@keyframes bg-drift-3 {
+    50% {
+        transform: translate(-18vmax, 14vmax) scale(1.3);
+    }
+    to {
+        transform: translate(14vmax, -16vmax) scale(0.9);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-blob {
+        animation: none;
+    }
+}
