@@ -1121,37 +1121,39 @@ html body {
 .bg-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.35;
+    /* بدل filter: blur (ثقيل ومقطّع عالتلفون) نستخدم تدرّج ناعم: نفس الشكل وأخف بكثير */
+    background: radial-gradient(circle, var(--c) 0%, transparent 68%);
+    opacity: 0.45;
     will-change: transform;
+    transform: translateZ(0);
 }
 
 .bg-blob-1 {
-    width: 46vmax;
-    height: 46vmax;
-    top: -14vmax;
-    left: -10vmax;
-    background: #00d4ff;
+    --c: #00d4ff;
+    width: 70vmax;
+    height: 70vmax;
+    top: -24vmax;
+    left: -18vmax;
     animation: bg-drift-1 22s ease-in-out infinite alternate;
 }
 
 .bg-blob-2 {
-    width: 40vmax;
-    height: 40vmax;
-    bottom: -14vmax;
-    right: -10vmax;
-    background: #ef00c3;
-    opacity: 0.28;
+    --c: #ef00c3;
+    width: 64vmax;
+    height: 64vmax;
+    bottom: -24vmax;
+    right: -18vmax;
+    opacity: 0.38;
     animation: bg-drift-2 27s ease-in-out infinite alternate;
 }
 
 .bg-blob-3 {
-    width: 30vmax;
-    height: 30vmax;
-    top: 35%;
-    left: 40%;
-    background: #2dd4bf;
-    opacity: 0.18;
+    --c: #2dd4bf;
+    width: 48vmax;
+    height: 48vmax;
+    top: 30%;
+    left: 35%;
+    opacity: 0.22;
     animation: bg-drift-3 32s ease-in-out infinite alternate;
 }
 
@@ -1179,5 +1181,14 @@ html body {
 @media (prefers-reduced-motion: reduce) {
     .bg-blob {
         animation: none;
+    }
+}
+
+
+/* عالتلفون: بقعة وحدة أقل */
+
+@media (max-width: 768px) {
+    .bg-blob-3 {
+        display: none;
     }
 }

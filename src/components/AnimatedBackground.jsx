@@ -17,11 +17,16 @@ export default function AnimatedBackground() {
     const ctx = canvas.getContext('2d');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // تلفون / شاشة لمس: نخفف كل شي عشان ما يتقطع
+    const isMobile = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
+    const FRAME_MS = isMobile ? 1000 / 30 : 1000 / 60; // 30fps عالتلفون
+    let last = 0;
+
     let w = 0, h = 0, dpr = 1, raf = 0, running = true;
     let particles = [];
     const mouse = { x: -9999, y: -9999, active: false };
-    const LINK = 130;      // أقصى مسافة لرسم خط بين جزيئتين
-    const MOUSE_R = 160;   // نطاق تأثير الماوس
+    const LINK = isMobile ? 95 : 130;      // أقصى مسافة لرسم خط بين جزيئتين
+    const MOUSE_R = isMobile ? 110 : 160;   // نطاق تأثير الماوس
 
     const make = (x, y, burst = false) => {
       const a = Math.random() * Math.PI * 2;
@@ -37,7 +42,9 @@ export default function AnimatedBackground() {
     };
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // عالتلفون الـ resize بينطلق كل ما شريط المتصفح يطلع/ينزل: نتجاهله إذا العرض ما تغيّر
+      if (isMobile && w && window.innerWidth === w) return;
+      dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
       canvas.width = w * dpr;
@@ -45,7 +52,9 @@ export default function AnimatedBackground() {
       canvas.style.width = w + 'px';
       canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const target = Math.round(Math.min(110, Math.max(35, (w * h) / 14000)));
+      const target = isMobile
+        ? Math.round(Math.min(32, Math.max(18, (w * h) / 20000)))
+        : Math.round(Math.min(110, Math.max(35, (w * h) / 14000)));
       const base = particles.filter(p => p.life === Infinity);
       const rest = particles.filter(p => p.life !== Infinity);
       while (base.length < target) base.push(make(Math.random() * w, Math.random() * h));
@@ -53,8 +62,13 @@ export default function AnimatedBackground() {
       particles = base.concat(rest);
     };
 
-    const frame = () => {
+    const frame = (now = 0) => {
       if (!running) return;
+      if (!reduceMotion && now - last < FRAME_MS - 1) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+      last = now;
       ctx.clearRect(0, 0, w, h);
 
       for (const p of particles) {
@@ -114,25 +128,30 @@ export default function AnimatedBackground() {
 
       // النقاط نفسها
       for (const p of particles) {
-        ctx.fillStyle = `rgba(${p.c}, ${0.85 * Math.min(p.life, 1)})`;
-        ctx.shadowColor = `rgba(${p.c}, 0.9)`;
-        ctx.shadowBlur = 8;
+        const al = Math.min(p.life, 1);
+        if (!isMobile) {
+          // هالة ناعمة (أرخص بكثير من shadowBlur)
+          ctx.fillStyle = `rgba(${p.c}, ${0.12 * al})`;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3.5, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = `rgba(${p.c}, ${0.85 * al})`;
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
       }
-      ctx.shadowBlur = 0;
 
       if (!reduceMotion) raf = requestAnimationFrame(frame);
     };
 
     const onMove = e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; };
     const onLeave = () => { mouse.active = false; };
+    const onUp = e => { if (e.pointerType === 'touch') mouse.active = false; };
     const onDown = e => {
-      for (let i = 0; i < 14; i++) particles.push(make(e.clientX, e.clientY, true));
+      const n = isMobile ? 7 : 14;
+      for (let i = 0; i < n; i++) particles.push(make(e.clientX, e.clientY, true));
     };
     const onVisibility = () => {
       if (reduceMotion) return;
       running = !document.hidden;
-      if (running) raf = requestAnimationFrame(frame);
+      if (running) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
     };
 
     resize();
@@ -142,6 +161,7 @@ export default function AnimatedBackground() {
     window.addEventListener('resize', resize);
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('pointerdown', onDown, { passive: true });
+    window.addEventListener('pointerup', onUp, { passive: true });
     document.addEventListener('pointerleave', onLeave);
     window.addEventListener('blur', onLeave);
     document.addEventListener('visibilitychange', onVisibility);
@@ -152,6 +172,7 @@ export default function AnimatedBackground() {
       window.removeEventListener('resize', resize);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointerup', onUp);
       document.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('blur', onLeave);
       document.removeEventListener('visibilitychange', onVisibility);
