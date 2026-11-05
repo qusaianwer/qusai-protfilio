@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
+import { useLocation } from "react-router-dom";
 import {
   FaEnvelope,
   FaWhatsapp,
@@ -56,38 +57,55 @@ const contactChannels = [
   }
 ];
 
-function Contact() {
-  const [copied, setCopied] = useState(false);
-  const [jordanTime, setJordanTime] = useState("");
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
-  const [formSent, setFormSent] = useState(false);
+// Leaf component for Jordan live clock — isolates 1-second interval re-renders from the rest of Contact
+const JordanClock = memo(function JordanClock() {
+  const [time, setTime] = useState("");
 
-  // Update Jordan Time live
   useEffect(() => {
-    const updateTime = () => {
+    let timer = 0;
+    const update = () => {
+      if (document.hidden) return;
       try {
-        const time = new Intl.DateTimeFormat("en-US", {
+        const now = new Intl.DateTimeFormat("en-US", {
           timeZone: "Asia/Amman",
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
           hour12: true
         }).format(new Date());
-        setJordanTime(time);
+        setTime(now);
       } catch {
-        setJordanTime("GMT+3");
+        setTime("GMT+3");
       }
     };
 
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    update();
+    timer = setInterval(update, 1000);
+
+    const onVis = () => {
+      if (!document.hidden) update();
+    };
+    document.addEventListener("visibilitychange", onVis);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, []);
+
+  return <strong>{time || "GMT+3"}</strong>;
+});
+
+function Contact() {
+  const location = useLocation();
+  const [copied, setCopied] = useState(false);
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    subject: location.state?.subject || "",
+    message: ""
+  });
+  const [formSent, setFormSent] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("qusaianwer06@gmail.com");
@@ -96,14 +114,13 @@ function Contact() {
   };
 
   const handleChange = (e) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, subject, message } = formState;
 
-    // Compose a mailto trigger
     const mailtoUrl = `mailto:qusaianwer06@gmail.com?subject=${encodeURIComponent(
       subject || `Portfolio Message from ${name}`
     )}&body=${encodeURIComponent(
@@ -138,7 +155,7 @@ function Contact() {
           <div className="cp-tz-divider">•</div>
           <div className="cp-tz-item">
             <FaClock className="cp-tz-icon" />
-            <span>Local Time: <strong>{jordanTime}</strong> (UTC+3)</span>
+            <span>Local Time: <JordanClock /> (UTC+3)</span>
           </div>
           <div className="cp-tz-divider">•</div>
           <div className="cp-tz-status">
@@ -274,4 +291,4 @@ function Contact() {
   );
 }
 
-export default Contact;
+export default memo(Contact);

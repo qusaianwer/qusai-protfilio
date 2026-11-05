@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { keyStats } from "../data/skillsData";
 
 function Stats() {
@@ -18,4 +19,4 @@ function Stats() {
   );
 }
 
-export default Stats;
+export default memo(Stats);

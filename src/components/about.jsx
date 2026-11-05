@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { skillCategories } from "../data/skillsData";
 import { FaGraduationCap, FaAward, FaLightbulb, FaLaptopCode } from "react-icons/fa";
 
@@ -141,4 +141,4 @@ function About() {
   );
 }
 
-export default About;
+export default memo(About);

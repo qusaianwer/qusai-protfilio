@@ -1,76 +1,51 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, memo } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logo from "../photo/photo_2026-09-23_21-24-46.jpg";
+import logo from "../photo/photo_optimized.jpg";
 
 const navLinks = [
-  { label: "Home", href: "#hero", route: "/" },
-  { label: "About", href: "#about", route: "/" },
-  { label: "Projects", href: "#projects", route: "/projects" },
-  { label: "Services", href: "#services", route: "/services" },
-  { label: "Contact", href: "#contact", route: "/contact" },
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Projects", to: "/projects" },
+  { label: "Services", to: "/services" },
+  { label: "Contact", to: "/contact" },
 ];
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
-  const location = useLocation();
-  const navigate = useNavigate();
 
+  // 1. Zero-cost passive scroll listener with rAF throttle & state-boundary checking
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+    let ticking = false;
+    let lastScrolled = false;
 
-      // Scrollspy on home page
-      if (location.pathname === "/") {
-        const sections = ["hero", "about", "projects", "services", "contact"];
-        const scrollPosition = window.scrollY + 200;
-
-        for (let i = sections.length - 1; i >= 0; i--) {
-          const el = document.getElementById(sections[i]);
-          if (el && el.offsetTop <= scrollPosition) {
-            setActiveSection(sections[i]);
-            break;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isPast = window.scrollY > 30;
+          if (isPast !== lastScrolled) {
+            lastScrolled = isPast;
+            setScrolled(isPast);
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [location.pathname]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // Close mobile menu on resize to desktop
+  // Close mobile menu on resize to desktop (passive)
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) setOpen(false);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const handleNavClick = (e, item) => {
-    e.preventDefault();
-    setOpen(false);
-
-    if (location.pathname === "/") {
-      const targetId = item.href.replace("#", "");
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      navigate("/");
-      setTimeout(() => {
-        const targetId = item.href.replace("#", "");
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) {
-          targetEl.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 150);
-    }
-  };
 
   return (
     <>
@@ -79,10 +54,18 @@ function Navbar() {
           <Link
             to="/"
             className="nv-logo"
-            onClick={(e) => handleNavClick(e, { href: "#hero" })}
+            onClick={() => setOpen(false)}
           >
             <div className="nv-logo-wrap">
-              <img src={logo} alt="Qusai Anwer" className="nv-logo-img" />
+              <img
+                src={logo}
+                alt="Qusai Anwer"
+                className="nv-logo-img"
+                width="40"
+                height="40"
+                loading="lazy"
+                decoding="async"
+              />
               <span className="nv-status-dot" title="Available for opportunities" />
             </div>
             <div className="nv-logo-text">
@@ -93,34 +76,23 @@ function Navbar() {
 
           {/* Desktop Navigation Links */}
           <ul className="nv-links nv-desktop-links">
-            {navLinks.map((item) => {
-              const isActive =
-                location.pathname === "/"
-                  ? activeSection === item.href.replace("#", "")
-                  : location.pathname === item.route;
-
-              return (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item)}
-                    className={`nv-link ${isActive ? "active" : ""}`}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              );
-            })}
+            {navLinks.map((item) => (
+              <li key={item.label}>
+                <NavLink
+                  to={item.to}
+                  end={item.to === "/"}
+                  className={({ isActive }) => `nv-link ${isActive ? "active" : ""}`}
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
 
           <div className="nv-actions">
-            <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, { href: "#contact" })}
-              className="nv-cta-btn"
-            >
+            <Link to="/contact" className="nv-cta-btn">
               Let's Talk
-            </a>
+            </Link>
 
             <button
               className="nv-toggle"
@@ -144,7 +116,15 @@ function Navbar() {
       <div className={`nv-mobile-drawer ${open ? "nv-drawer-open" : ""}`}>
         <div className="nv-drawer-head">
           <div className="nv-logo-wrap">
-            <img src={logo} alt="Qusai Anwer" className="nv-logo-img" />
+            <img
+              src={logo}
+              alt="Qusai Anwer"
+              className="nv-logo-img"
+              width="40"
+              height="40"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div>
             <div className="nv-logo-name">Qusai Anwer</div>
@@ -155,29 +135,26 @@ function Navbar() {
         <ul className="nv-drawer-links">
           {navLinks.map((item) => (
             <li key={item.label}>
-              <a
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item)}
+              <NavLink
+                to={item.to}
+                end={item.to === "/"}
+                onClick={() => setOpen(false)}
                 className="nv-drawer-link"
               >
                 {item.label}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
 
         <div className="nv-drawer-footer">
-          <a
-            href="#contact"
-            onClick={(e) => handleNavClick(e, { href: "#contact" })}
-            className="nv-drawer-cta"
-          >
+          <Link to="/contact" onClick={() => setOpen(false)} className="nv-drawer-cta">
             Get In Touch
-          </a>
+          </Link>
         </div>
       </div>
     </>
   );
 }
 
-export default Navbar;
+export default memo(Navbar);

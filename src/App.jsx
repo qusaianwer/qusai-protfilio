@@ -1,93 +1,53 @@
-import { useEffect } from "react";
-import { Routes, Route, useLocation, Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { useEffect, lazy, Suspense } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Hero from "./components/hero";
 import Stats from "./components/stats";
-import About from "./components/about";
-import Projects from "./components/projects";
-import Services from "./components/services";
-import Contact from "./components/contact";
 import Footer from "./components/footer";
 import AnimatedBackground from "./components/AnimatedBackground";
 import "./App.css";
 
-function App() {
-  const location = useLocation();
+// Each page is loaded only when the visitor opens it (smaller first load)
+const About = lazy(() => import("./components/about"));
+const Projects = lazy(() => import("./components/projects"));
+const Services = lazy(() => import("./components/services"));
+const Contact = lazy(() => import("./components/contact"));
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
   useEffect(() => {
-    if (location.hash) {
-      const id = location.hash.replace("#", "");
-      const el = document.getElementById(id);
-      if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      }
-    } else if (location.pathname !== "/") {
-      window.scrollTo(0, 0);
-    }
-  }, [location.pathname, location.hash]);
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
+function App() {
   return (
     <>
       <AnimatedBackground />
       <div className="App">
+        <ScrollToTop />
         <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <main id="main-content">
-                <Hero />
-                <Stats />
-                <About />
-                <Projects />
-                <Services />
-                <Contact />
-              </main>
-            }
-          />
-          <Route
-            path="/projects"
-            element={
-              <main className="page-view">
-                <div className="page-view-bar">
-                  <Link to="/" className="page-view-back-btn">
-                    <FaArrowLeft /> Back to Full Overview
-                  </Link>
-                </div>
-                <Projects />
-              </main>
-            }
-          />
-          <Route
-            path="/services"
-            element={
-              <main className="page-view">
-                <div className="page-view-bar">
-                  <Link to="/" className="page-view-back-btn">
-                    <FaArrowLeft /> Back to Full Overview
-                  </Link>
-                </div>
-                <Services />
-              </main>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <main className="page-view">
-                <div className="page-view-bar">
-                  <Link to="/" className="page-view-back-btn">
-                    <FaArrowLeft /> Back to Full Overview
-                  </Link>
-                </div>
-                <Contact />
-              </main>
-            }
-          />
-        </Routes>
+        <main className="page-view">
+          <Suspense fallback={null}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Hero />
+                    <Stats />
+                  </>
+                }
+              />
+              <Route path="/about" element={<About />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<Hero />} />
+            </Routes>
+          </Suspense>
+        </main>
         <Footer />
       </div>
     </>

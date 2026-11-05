@@ -1,3 +1,5 @@
+import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 import { servicesData } from "../data/servicesData";
 import {
   FaLaptopCode,
@@ -23,16 +25,10 @@ const iconMap = {
 };
 
 function Services() {
+  const navigate = useNavigate();
+
   const handleSelectService = (serviceTitle) => {
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-      const subjectInput = document.getElementById("contact-subject");
-      if (subjectInput) {
-        subjectInput.value = `Inquiry: ${serviceTitle}`;
-        subjectInput.focus();
-      }
-    }
+    navigate("/contact", { state: { subject: `Inquiry: ${serviceTitle}` } });
   };
 
   return (
@@ -89,4 +85,4 @@ function Services() {
   );
 }
 
-export default Services;
+export default memo(Services);

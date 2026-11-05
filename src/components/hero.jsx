@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaGithub, FaYoutube, FaArrowRight, FaEnvelope } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
-import photo from "../photo/photo_2026-09-23_21-24-46.jpg";
+import photo from "../photo/photo_optimized.jpg";
 
 const roles = [
   "Software Engineer",
@@ -10,28 +11,37 @@ const roles = [
   "Computer Science Instructor (Q3V)"
 ];
 
-function Hero() {
+// Leaf component for dynamic role rotations — prevents Hero from re-rendering every 3.2s
+const RoleRotator = memo(function RoleRotator() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [fade, setFade] = useState(true);
 
   useEffect(() => {
+    let timeout = 0;
     const interval = setInterval(() => {
+      if (document.hidden) return;
       setFade(false);
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         setRoleIndex((prev) => (prev + 1) % roles.length);
         setFade(true);
       }, 250);
     }, 3200);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
   }, []);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  return (
+    <span className={`hr-role-text ${fade ? "fade-in" : "fade-out"}`}>
+      {roles[roleIndex]}
+    </span>
+  );
+});
+
+function Hero() {
+  const navigate = useNavigate();
 
   return (
     <section className="hr-section" id="hero">
@@ -49,12 +59,10 @@ function Hero() {
             Qusai <span className="hr-name-gradient">Anwer</span>
           </h1>
 
-          {/* Dynamic Animated Role */}
+          {/* Dynamic Animated Role (Isolated Re-render) */}
           <div className="hr-role-wrapper">
             <span className="hr-role-prefix">Specializing in</span>
-            <span className={`hr-role-text ${fade ? "fade-in" : "fade-out"}`}>
-              {roles[roleIndex]}
-            </span>
+            <RoleRotator />
           </div>
 
           {/* Education & Location Chip */}
@@ -76,7 +84,7 @@ function Hero() {
           {/* Primary Action Buttons */}
           <div className="hr-buttons">
             <button
-              onClick={() => scrollTo("projects")}
+              onClick={() => navigate("/projects")}
               className="hr-btn hr-btn-primary"
             >
               Explore My Work <FaArrowRight className="btn-icon-right" />
@@ -101,7 +109,7 @@ function Hero() {
             </a>
 
             <button
-              onClick={() => scrollTo("contact")}
+              onClick={() => navigate("/contact")}
               className="hr-btn hr-btn-ghost"
             >
               <FaEnvelope /> Get In Touch
@@ -113,7 +121,15 @@ function Hero() {
         <div className="hr-photo-container">
           <div className="hr-photo-glow" />
           <div className="hr-photo-ring">
-            <img src={photo} alt="Qusai Anwer" className="hr-photo" />
+            <img
+              src={photo}
+              alt="Qusai Anwer"
+              className="hr-photo"
+              width="320"
+              height="320"
+              fetchPriority="high"
+              decoding="async"
+            />
             <div className="hr-photo-badge" title="WISE Software Engineer">
               <span>WISE SE</span>
             </div>
@@ -124,4 +140,4 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default memo(Hero);

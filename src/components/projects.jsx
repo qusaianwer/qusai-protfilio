@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { projectsData, projectCategories } from "../data/projectsData";
 import { FaYoutube, FaDownload, FaExternalLinkAlt, FaCode, FaCheckCircle, FaWindows, FaAndroid } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
@@ -204,4 +204,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default memo(Projects);
