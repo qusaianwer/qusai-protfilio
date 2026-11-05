@@ -1,55 +1,89 @@
-const services = [
-  {
-    icon: "🌐",
-    title: "Portfolio Websites",
-    desc: "I build modern, responsive personal portfolio websites that showcase your skills, projects, experience, and achievements.",
-  },
-  {
-    icon: "💻",
-    title: "Business Websites",
-    desc: "I create clean and responsive websites for small businesses, stores, and personal brands.",
-  },
-  {
-    icon: "🤖",
-    title: "AI Automation",
-    desc: "I build AI-powered workflows that automate repetitive tasks and help businesses save time.",
-  },
-  {
-    icon: "⚙️",
-    title: "n8n Workflows",
-    desc: "I design and connect automated workflows using n8n, APIs, and different business tools.",
-  },
-  {
-    icon: "🔗",
-    title: "API Integration",
-    desc: "I connect websites and services together using APIs to automate data and processes.",
-  },
-  {
-    icon: "🎨",
-    title: "Website UI & Landing Pages",
-    desc: "I create modern landing pages and user interfaces focused on a clean and professional experience.",
-  },
-  {
-    icon: "🔧",
-    title: "Website Updates & Fixes",
-    desc: "I fix bugs, improve existing websites, and add new features when needed.",
-  },
-];
+import { servicesData } from "../data/servicesData";
+import {
+  FaLaptopCode,
+  FaRobot,
+  FaNetworkWired,
+  FaWhatsapp,
+  FaServer,
+  FaPalette,
+  FaWrench,
+  FaArrowRight,
+  FaCheck
+} from "react-icons/fa";
+import { HiSparkles } from "react-icons/hi2";
+
+const iconMap = {
+  FaLaptopCode: <FaLaptopCode />,
+  FaRobot: <FaRobot />,
+  FaNetworkWired: <FaNetworkWired />,
+  FaWhatsapp: <FaWhatsapp />,
+  FaServer: <FaServer />,
+  FaPalette: <FaPalette />,
+  FaWrench: <FaWrench />
+};
 
 function Services() {
+  const handleSelectService = (serviceTitle) => {
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+      const subjectInput = document.getElementById("contact-subject");
+      if (subjectInput) {
+        subjectInput.value = `Inquiry: ${serviceTitle}`;
+        subjectInput.focus();
+      }
+    }
+  };
+
   return (
     <section className="sv-section" id="services">
-      <h2 className="sv-title">Services</h2>
-      <p className="sv-subtitle">What I can build for you</p>
-
-      <div className="sv-grid">
-        {services.map((s) => (
-          <div className="sv-card" key={s.title}>
-            <div className="sv-icon">{s.icon}</div>
-            <h3>{s.title}</h3>
-            <p>{s.desc}</p>
+      <div className="sv-container">
+        {/* Header */}
+        <div className="sv-header">
+          <div className="section-eyebrow">
+            <HiSparkles className="eyebrow-icon" /> Engineering Capabilities
           </div>
-        ))}
+          <h2 className="section-title">Services & Solutions</h2>
+          <p className="section-subtitle">
+            From modern responsive web applications to autonomous AI automation pipelines and messaging integrations.
+          </p>
+        </div>
+
+        {/* Services Grid */}
+        <div className="sv-grid">
+          {servicesData.map((s) => (
+            <div className="sv-card" key={s.id}>
+              <div className="sv-card-top">
+                <div className="sv-icon-wrap">{iconMap[s.iconName] || <FaLaptopCode />}</div>
+                <span className="sv-badge">{s.badge}</span>
+              </div>
+
+              <h3 className="sv-title">{s.title}</h3>
+              <p className="sv-subtitle-text">{s.subtitle}</p>
+              <p className="sv-desc">{s.desc}</p>
+
+              {/* Deliverables */}
+              <div className="sv-deliverables">
+                <span className="sv-del-label">What's Included:</span>
+                <ul className="sv-del-list">
+                  {s.deliverables.map((item, idx) => (
+                    <li key={idx}>
+                      <FaCheck className="sv-check" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <button
+                onClick={() => handleSelectService(s.title)}
+                className="sv-btn-inquire"
+              >
+                Inquire About This <FaArrowRight className="btn-icon-right" />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
