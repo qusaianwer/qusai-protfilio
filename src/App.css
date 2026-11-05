@@ -2719,19 +2719,6 @@ main {
         background: rgba(18, 22, 42, 0.92);
     }
 
-    /* Background: keep it static on phones (no drifting blobs, no canvas) */
-    .bg-blob {
-        animation: none !important;
-        will-change: auto;
-    }
-    .bg-canvas {
-        display: none;
-    }
-    .hr-photo-glow {
-        animation: none;
-        will-change: auto;
-    }
-
     /* "Under construction" card: stop the repaint-heavy animations */
     .p4-card {
         animation: none;
